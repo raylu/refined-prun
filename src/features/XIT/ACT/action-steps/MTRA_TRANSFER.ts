@@ -6,6 +6,7 @@ import { materialsStore } from '@src/infrastructure/prun-api/data/materials';
 import { watchWhile } from '@src/utils/watch';
 import { storagesStore } from '@src/infrastructure/prun-api/data/storage';
 import { AssertFn } from '@src/features/XIT/ACT/shared-types';
+import { selectMaterial } from '@src/features/XIT/ACT/action-steps/cont-utils';
 
 interface Data {
   from: string;
@@ -69,10 +70,7 @@ export const MTRA_TRANSFER = act.addActionStep<Data>({
     setStatus('Setting up MTRA buffer...');
 
     const materialSelectSuccess = await selectMaterialInMaterialSelector(tile.anchor, ticker);
-    if (!materialSelectSuccess) {
-      fail(`Ticker ${ticker} not found in the material selector`);
-      return;
-    }
+    assert(materialSelectSuccess, `Ticker ${ticker} not found in the material selector`);
 
     const sliderNumbers = _$$(tile.anchor, 'rc-slider-mark-text').map(x =>
       Number(x.textContent ?? 0),
