@@ -80,7 +80,7 @@ function preventDragSelection() {
     });
   };
 
-  document.addEventListener('dragstart', e => {
+  window.addEventListener('dragstart', e => {
     const target = e.target as Element;
     if (target.closest('[draggable="true"]') === null) {
       return;
@@ -88,7 +88,7 @@ function preventDragSelection() {
     document.body.classList.add(noSelectClass);
   });
 
-  document.addEventListener('dragend', queueReset);
+  window.addEventListener('dragend', queueReset);
   window.addEventListener('blur', queueReset);
 }
 
@@ -117,9 +117,6 @@ function init() {
 
   // Prevent PROD buffer vertical scroll bar gutter from being always visible.
   applyCssRule('PROD', `.${C.SiteProductionLines.container}`, $style.containerScrollbarGutter);
-
-  // User search results box in GIFT is too big to fit in the tile.
-  applyCssRule('GIFT', `.${C.UserSelector.suggestionsContainer}`, $style.giftSearchResults);
 
   // Fixes the dot / arrow in system info being left skewed
   applyCssRule(
